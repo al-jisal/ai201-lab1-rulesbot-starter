@@ -44,9 +44,14 @@ Results should be ordered from most to least relevant (lowest to highest distanc
 
 *Describe how you will use `_collection.query()` to find relevant chunks. What arguments will you pass, and why?*
 
-```
-[your answer here]
-```
+`_collection.query()` is used to query the vector database. Its arguments are:
+- query_texts : a list containing your query string 
+    - this will be embed and matched against the data in the database
+- n_results   : how many results to return 
+    - these are the n closest data point in meaning to the user's query
+- include     : what to return  
+    - get ["documents", "metadatas", "distances"]from the standard output
+
 
 ---
 
@@ -54,8 +59,13 @@ Results should be ordered from most to least relevant (lowest to highest distanc
 
 *Sketch out what one item in your return list looks like as a concrete example. Where does each field come from in the query results?*
 
+Each dict from the returned list has the structure below:
 ```
-[your answer here]
+{
+    "text"     : the chunk text (pull this from documents),
+    "game"     : the game name (pull this from metadatas),
+    "distance" : the similarity score (lower = more similar for cosine),
+}
 ```
 
 ---
@@ -64,9 +74,7 @@ Results should be ordered from most to least relevant (lowest to highest distanc
 
 *`_collection.query()` returns nested lists. Describe what index you need to access to get the actual list of results for a single query, and why the nesting exists.*
 
-```
-[your answer here]
-```
+Since there's a single query, index 0 holds the actual list of the relevant results. Nesting exists for cases of multiple queries
 
 ---
 
