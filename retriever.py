@@ -68,5 +68,26 @@ def retrieve(query, n_results=N_RESULTS):
     if _collection.count() == 0:
         return []
 
-    # Your implementation here.
-    return []
+    results = _collection.query( 
+        query_texts=[query],
+        n_results=n_results,
+        include=["documents", "metadatas", "distances"]
+    )
+
+    hits = [
+        {
+            "text": doc,
+            "game": meta["game"],
+            "distance": dist
+        }
+        for doc, meta, dist in zip(
+            results["documents"][0],
+            results["metadatas"][0],
+            results["distances"][0]
+        )
+    ]
+    
+    for element in hits:
+        print(f"[{element['game']}] (dist: {element['distance']:.3f}) {element['text'][:]}")
+
+    return sorted(hits, key=lambda x: x["distance"])
