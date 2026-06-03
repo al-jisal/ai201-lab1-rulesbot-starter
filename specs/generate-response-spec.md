@@ -42,7 +42,15 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *How will you format the retrieved chunks before passing them to the LLM? Describe the structure — not the code. Consider: will you label chunks by game? Include distance scores? Separate chunks with delimiters?*
 
 ```
-[your answer here]
+For each chunk, I'll have the game name and the distance on the first line followed by the text on the subsequent lines. I'll number each chunk, spacing them clearly. It look like this:
+
+1. Game: Catan | Distance: 0.273
+   Catan is a strategy board game for 3–4 players (5–6 with an expansion).Players take on 
+   the roles of settlers, building roads, settlements, and cities on the island of Catan
+
+2. Game: Risk | Distance: 0.436
+   The attacker rolls up to 3 dice (limited by the number of armies attacking).The defender
+   rolls up to 2 dice (limited by armies in the defending territory).
 ```
 
 ---
@@ -52,7 +60,8 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *Write the exact system prompt instruction you will use to prevent the model from answering beyond the retrieved text. This is the most important design decision in this function.*
 
 ```
-[your answer here]
+You're the go-to assistant at a game night when players are not sure about the game rules
+Answer the players' question using only the context provided below. If the answer is not in the text, say so clearly — do not guess or draw on outside knowledge.
 ```
 
 ---
@@ -62,7 +71,7 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *Write the exact instruction you will use to tell the model to identify which game its answer comes from.*
 
 ```
-[your answer here]
+For each numbered item in the context, the game name is on the first line after the phrase "Game:"
 ```
 
 ---
@@ -72,7 +81,8 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *What should the response say when the answer isn't found in the loaded rule books? Write the exact fallback message.*
 
 ```
-[your answer here]
+I don't have a response to your question based on the information I have.
+Either my chunking strategy isn't working or I don't have the relevant documents.
 ```
 
 ---
